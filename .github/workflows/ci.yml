@@ -19,8 +19,8 @@ jobs:
       - name: Set up Elixir
         uses: actions/setup-elixir@v1
         with:
-          elixir-version: '1.15.0'  # Укажите нужную версию Elixir
-          otp-version: '25.3'        # Укажите нужную версию OTP
+          elixir-version: '1.17.3' # Define the elixir version [required]
+          otp-version: '27' # Define the OTP version [required]
 
       # 3. Install Dependencies, Run Linter, and Run Tests
       - name: Install Dependencies, Run Linter and Tests
