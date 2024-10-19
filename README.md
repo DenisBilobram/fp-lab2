@@ -325,7 +325,7 @@ end
 
 ## Property-based тесты
 
-```
+``` elixir
   test "add/2 is associative (monoid property)" do
     for _ <- 1..@num_tests do
       tree_a = bst_gen()
