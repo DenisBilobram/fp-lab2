@@ -19,7 +19,6 @@ defmodule FpLab2.MixProject do
 
   defp deps do
     [
-      {:propcheck, "~> 1.4", only: [:dev, :test]},
       {:credo, "~> 1.7", only: [:dev, :test], runtime: false}
     ]
   end
