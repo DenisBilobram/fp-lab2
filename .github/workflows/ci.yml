@@ -19,12 +19,6 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v3
 
-      - name: Set up Elixir
-        uses: actions/setup-elixir@v1
-        with:
-          elixir-version: ${{ matrix.elixir }}
-          otp-version: ${{ matrix.otp }}
-
       - name: Install Dependencies
         run: |
           mix local.hex --force
