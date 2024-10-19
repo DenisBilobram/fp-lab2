@@ -1,4 +1,7 @@
 defmodule DictionaryProject do
+
+  @moduledoc false
+
   alias __MODULE__.BST
 
   def insert(nil, key, value) do
@@ -92,9 +95,56 @@ defmodule DictionaryProject do
     nil
   end
   def map(%BST{} = node, func) when is_function(func, 1) do
-    %BST{ node | value: func.(node.value), left: map(node.left, func), right: map(node.right, func)}
+    %BST{node | value: func.(node.value), left: map(node.left, func), right: map(node.right, func)}
   end
 
-  
+  def foldl(nil, acc, _func), do: acc
+
+  def foldl(%BST{left: left, value: value, right: right}, acc, func) do
+    acc = foldl(left, acc, func)
+    acc = func.(value, acc)
+    foldl(right, acc, func)
+  end
+
+  def foldr(nil, acc, _func), do: acc
+
+  def foldr(%BST{left: left, value: value, right: right}, acc, func) do
+    acc = foldr(right, acc, func)
+    acc = func.(value, acc)
+    foldr(left, acc, func)
+  end
+
+  def filter(tree, _func) when tree == nil do
+    nil
+  end
+
+  def filter(%BST{key: key, value: value, left: left, right: right}, filter_func) when is_function(filter_func, 1) do
+    filtered_left = filter(left, filter_func)
+    filtered_right = filter(right, filter_func)
+
+    if filter_func.(value) do
+      %BST{
+        key: key,
+        value: value,
+        left: filtered_left,
+        right: filtered_right
+      }
+    else
+      merge_trees(filtered_left, filtered_right)
+    end
+  end
+
+  defp merge_trees(nil, right), do: right
+  defp merge_trees(left, nil), do: left
+  defp merge_trees(left, right) do
+    {min_key, min_value} = find_min(right)
+    new_right = delete(right, min_key)
+    %BST{
+      key: min_key,
+      value: min_value,
+      left: left,
+      right: new_right
+    }
+  end
 
 end
