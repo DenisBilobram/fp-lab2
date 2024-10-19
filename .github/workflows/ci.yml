@@ -11,37 +11,21 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # 1. Checkout Код Репозитория
+      # 1. Checkout Code
       - name: Checkout Code
         uses: actions/checkout@v3
 
-      # 2. Установка Elixir и Настройка Зависимостей
-      - name: Install Elixir and Setup Dependencies
+      # 2. Set up Elixir
+      - name: Set up Elixir
+        uses: actions/setup-elixir@v1
+        with:
+          elixir-version: '1.15.0'  # Укажите нужную версию Elixir
+          otp-version: '25.3'        # Укажите нужную версию OTP
+
+      # 3. Install Dependencies, Run Linter, and Run Tests
+      - name: Install Dependencies, Run Linter and Tests
         run: |
-          sudo apt-get update
-          sudo apt-get install -y wget gnupg2
-
-          # Добавление репозитория Erlang Solutions для установки Erlang/OTP и Elixir
-          wget https://packages.erlang-solutions.com/erlang-solutions_2.0_all.deb
-          sudo dpkg -i erlang-solutions_2.0_all.deb
-          sudo apt-get update
-
-          # Установка Erlang/OTP и Elixir
-          sudo apt-get install -y esl-erlang elixir
-
-          # Установка Hex и Rebar (необходимы для работы mix)
-          mix local.hex --force
-          mix local.rebar --force
-
-          # Получение зависимостей и компиляция проекта
           mix deps.get
           mix compile
-
-      # 3. Запуск Линтера и Тестов
-      - name: Run Linter and Tests
-        run: |
-          # Запуск Credo для линтинга с строгими правилами
-          mix credo --strict
-
-          # Запуск тестов проекта
+          mix credo
           mix test
