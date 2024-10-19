@@ -11,20 +11,23 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # 1. Checkout Code
-      - name: Checkout Code
-        uses: actions/checkout@v2
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-      # 2. Set up Elixir
       - name: Set up Elixir
-        uses: actions/setup-elixir@v1
+        uses: erlef/setup-beam@v1
         with:
-          elixir-version: '1.17.3' # Define the elixir version [required]
-          otp-version: '27' # Define the OTP version [required]
+          otp-version: '27.0.1'
+          elixir-version: '1.17.2'
 
       - name: Install Dependencies
         run: mix deps.get
+
+      - name: Compile dependencies
+        run: mix compile
+
+      - name: Run credo linter
+        run: mix credo --strict
+
       - name: Run Tests
         run: mix test
-      - name: Run credo code analyser
-        run: mix credo --strict
