@@ -5,7 +5,7 @@
 
 # Структура с необходимыми функциями
 
-```
+``` elixir
 defmodule DictionaryProject.BST do
   defstruct key: nil, value: nil, left: nil, right: nil
 end
@@ -162,7 +162,7 @@ end
 
 ## Unit-тесты
 
-```
+``` elixir
   describe "insert/3 and get/2" do
     test "insert into an empty tree" do
       tree = DictionaryProject.insert(nil, 5, "five")
